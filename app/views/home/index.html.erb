@@ -1,0 +1,36 @@
+<div class="main">
+  <form class="search-form" role="search">
+    <!-- Actual search box -->
+    <div class="form-group has-search">
+      <span class="fa fa-search form-control-feedback"></span>
+      <input type="text" name="q" class="form-control" placeholder="Search">
+    </div>
+    <div class="form-group text-center">
+      <button class="mt-2 btn btn-primary align-items-center" type="submit">Search</button>
+    </div>
+  </form>
+  <br/>
+  <div>
+    <textarea name="result" id="myTextarea" style="width: 100%;" rows="10"></textarea>
+  </div>
+</div>
+
+<script type="application/javascript">
+  $(document).ready(function(){
+    $(".search-form").on('submit', function(){
+        event.preventDefault();
+        var q = $("input[name='q']").val();
+        $.ajax({
+            url: '/forecast',
+            type: 'GET',
+            dataType: "json",
+            data: {q: q},
+            success: function (data) {
+                var textedJson = JSON.stringify(data, undefined, 4);
+                $('#myTextarea').text(textedJson);
+            }
+        });
+        return false;
+    });
+  });
+</script>
